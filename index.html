@@ -5,34 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BBHCSD Data</title>
 <meta name="description" content="Public data dashboards from the Brecksville-Broadview Heights City School District Treasurer's Office.">
+<script>(function(){var t='auto';try{t=localStorage.getItem('bbh-theme')||'auto';}catch(e){}if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <style>
-  :root { --red: #CE2031; --gold: #F1B823; --ink: #1f1a17; }
-  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: #fbf7f2; }
-  header { background: linear-gradient(90deg, #CE2031 0%, #a81627 100%); color: #fff; border-bottom: 6px solid var(--gold); padding: 28px 24px; }
+  :root { --red: #CE2031; --gold: #F1B823; --ink: #1f1a17; --bg: #fbf7f2; --panel: #fff; --line: #e6ddd3; --muted: #5a524b; --faint: #8a817a; color-scheme: light; }
+  :root[data-theme="dark"] { --ink: #f1ede7; --bg: #161514; --panel: #211f1d; --line: #3a3733; --muted: #c9c2b8; --faint: #9a938a; color-scheme: dark; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink: #f1ede7; --bg: #161514; --panel: #211f1d; --line: #3a3733; --muted: #c9c2b8; --faint: #9a938a; color-scheme: dark; } }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: var(--bg); }
+  .wrap { position: relative; }
+  .theme-switch { position: absolute; top: 0; right: 0; display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.95); }
+  .theme-switch button { font: 600 12px Arial, Helvetica, sans-serif; border: 0; background: transparent; color: #5a524b; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+  .theme-switch button[aria-pressed="true"] { background: #1f1a17; color: var(--gold); }
+  @media (max-width: 600px) { .theme-switch { position: static; margin-bottom: 12px; } }
+  header { background: linear-gradient(90deg, #CE2031 0%, #a81627 100%); color: #fff; border-bottom: 6px solid var(--gold); padding: 28px 16px; }
+  .wrap { max-width: 900px; margin: 0 auto; }
   header h1 { font-family: Cambria, "Cambria Math", Georgia, serif; font-weight: 400; margin: 0; font-size: 2rem; }
   header h1 span { color: var(--gold); }
   header p { font-family: Cambria, Georgia, serif; font-style: italic; color: var(--gold); margin: 6px 0 0; }
   main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
-  .card { display: block; background: #fff; border: 1px solid #e6ddd3; border-top: 5px solid var(--red); border-radius: 12px; padding: 18px 20px; margin: 16px 0; text-decoration: none; color: var(--ink); }
-  .card:hover { border-top-color: var(--gold); }
+  .card { display: block; background: var(--panel); border: 1px solid var(--line); border-top: 5px solid var(--red); border-radius: 12px; padding: 18px 20px; margin: 16px 0; text-decoration: none; color: var(--ink); }
+  .card { transition: box-shadow .15s, transform .15s; }
+  .card:hover, .card:focus-visible { border-top-color: var(--gold); box-shadow: 0 6px 18px rgba(31,26,23,.12); transform: translateY(-2px); outline: none; }
+  .card .open { display: inline-block; margin-top: 14px; background: var(--red); color: #fff; font-weight: 700; font-size: .95rem; padding: 9px 18px; border-radius: 999px; border-bottom: 3px solid var(--gold); }
+  .card:hover .open, .card:focus-visible .open { background: #a81627; }
+  .intro { color: var(--muted); margin: 0 0 4px; }
   .card h2 { font-family: Cambria, Georgia, serif; margin: 0 0 6px; font-size: 1.3rem; }
-  .card p { margin: 0; color: #5a524b; line-height: 1.45; }
-  .card small { display: block; margin-top: 8px; color: #8a817a; font-size: .85rem; }
+  .card p { margin: 0; color: var(--muted); line-height: 1.45; }
+  .card small { display: block; margin-top: 8px; color: var(--faint); font-size: .85rem; }
   footer { text-align: center; padding: 24px; font-family: Cambria, Georgia, serif; font-style: italic; color: var(--red); }
 </style>
 </head>
 <body>
-<header>
+<header><div class="wrap">
+  <div class="theme-switch" role="group" aria-label="Display theme"><button type="button" data-t="auto" title="Match this device">Auto</button><button type="button" data-t="light">Light</button><button type="button" data-t="dark">Dark</button></div>
   <h1><span>BBHCSD</span> Data</h1>
   <p>Bee Your Best. Bee the Future. Bee One Community.</p>
-</header>
+</div></header>
 <main>
+  <p class="intro">Public data dashboards from the Treasurer's Office. Select a dashboard to open it.</p>
   <a class="card" href="/value/">
     <h2>Exceptional Excellence, Unmatched Value</h2>
     <p>How Brecksville-Broadview Heights compares with the other 30 Cuyahoga County school districts on results, cost per student, and taxpayer burden. Includes the District Duel, the HB 920 tax simulator, and the County Data Explorer.</p>
     <small>Sources: Ohio DEW FY25 District Profile Report (Cupp), 2025-26 Ohio School Report Cards, Cuyahoga County Fiscal Office TY24 rate reports.</small>
+    <span class="open">Open dashboard &rarr;</span>
   </a>
 </main>
 <footer>Protect the Banner!</footer>
+<script>
+(function () {
+  var root = document.documentElement, cur = 'auto';
+  try { cur = localStorage.getItem('bbh-theme') || 'auto'; } catch (e) {}
+  var btns = document.querySelectorAll('.theme-switch button');
+  function apply(t) {
+    cur = t; if (t === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', t);
+    try { localStorage.setItem('bbh-theme', t); } catch (e) {}
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.t === t)); });
+  }
+  btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.t); }); });
+  apply(cur);
+})();
+</script>
 </body>
 </html>
