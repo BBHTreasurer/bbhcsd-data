@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BBHCSD: Exceptional Excellence, Unmatched Value (Community Edition)</title><script>(function(){var t='auto';try{t=localStorage.getItem('bbh-theme')||'auto';}catch(e){}if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Student Performance & Financial Stewardship: How BBHCSD Compares</title><script>(function(){var t='auto';try{t=localStorage.getItem('bbh-theme')||'auto';}catch(e){}if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <style>
 [hidden]{display:none!important}
 :root { color-scheme: light;
@@ -161,6 +161,18 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
   table.ex td .duel-btn { font-family: var(--bbh-body); font-size: 11px; font-weight: 700; padding: .25rem .55rem; border-radius: 6px; border: 1px solid var(--bbh-red); background: transparent; color: var(--bbh-red); cursor: pointer; white-space: nowrap; }
   table.ex td .duel-btn:hover { background: var(--bbh-red); color: #fff; }
   .search { font-family: var(--bbh-body); font-size: var(--cds-font-size-caption); padding: .4rem .6rem; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); width: min(100%, 20rem); }
+  .ask { display: flex; align-items: center; justify-content: space-between; gap: var(--cds-gap-md); margin-top: var(--cds-gap-lg); padding: var(--cds-pad-md) var(--cds-pad-lg); border: 1px solid var(--color-border-line); border-left: 6px solid var(--bbh-red); border-radius: 12px; background: var(--color-panel); }
+  .ask h3 { font-family: var(--bbh-font); font-size: var(--cds-font-size-heading); margin: 0 0 .2rem; color: var(--color-fg); }
+  .ask p { margin: 0 0 .6rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.45; }
+  .ask-btn { display: inline-block; background: var(--bbh-red); color: #fff !important; text-decoration: none; font-weight: 700; font-size: var(--cds-font-size-caption); padding: .5rem 1rem; border-radius: 999px; border-bottom: 3px solid var(--bbh-gold); }
+  .ask-btn:hover { background: #a81627; }
+  .qr-tile { flex: 0 0 auto; background: #fff; border: 2px solid var(--bbh-gold); border-radius: 10px; padding: 6px 6px 4px; text-align: center; text-decoration: none; }
+  .qr-tile .qr { display: block; width: 92px; height: 92px; }
+  .qr-tile span { display: block; font: 700 9px Arial, Helvetica, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #a81627; margin-top: 3px; }
+  .qr-big { display: flex; align-items: center; gap: var(--cds-gap-lg); }
+  .qr-big .qr-tile .qr { width: 200px; height: 200px; }
+  .qr-big .qr-tile span { font-size: 12px; }
+  @media (max-width: 560px) { .ask { flex-direction: column; align-items: flex-start; } .qr-big { flex-direction: column; align-items: flex-start; } }
   .foot { border-top: 1px solid var(--color-border-line); margin-top: var(--cds-gap-lg); padding-top: var(--cds-pad-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; }
   .foot .banner { font-family: var(--bbh-font); font-style: italic; color: var(--bbh-red); font-size: var(--cds-font-size-body); margin: 0 0 .4rem; }
   .bbh [data-dash-source-state=empty] { color: transparent; }
@@ -264,7 +276,7 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
 <div class="bbh">
   <header class="bbh-head" id="top">
     <span class="bbh-edition">Community Edition</span>
-    <h1><span>BBHCSD:</span> Exceptional Excellence, Unmatched Value</h1>
+    <h1>Student Performance &amp; Financial Stewardship: <span>How BBHCSD Compares</span></h1>
     <p class="bbh-tag">Bee Your Best. Bee the Future. Bee One Community.</p>
     <div class="thesis" id="thesis" data-source="bbh_summary ohio_rank">
       <p class="eyebrow">Hypothesis Question</p>
@@ -281,7 +293,7 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
     <button role="tab" id="tab-tax" data-page="tax" aria-selected="false">Tax &amp; Funding Mechanics</button>
     <button role="tab" id="tab-savings" data-page="savings" aria-selected="false">Taxpayer Burden &amp; Savings</button>
     <button role="tab" id="tab-fiscal" data-page="fiscal" aria-selected="false">Fiscal Stewardship</button>
-    <button role="tab" id="tab-duel" data-page="duel" aria-selected="false">District Duel</button>
+    <button role="tab" id="tab-duel" data-page="duel" aria-selected="false">District Comparison</button>
     <button role="tab" id="tab-explorer" data-page="explorer" aria-selected="false">County Data Explorer</button>
     <button type="button" class="cheat-btn" id="cheat-open" aria-haspopup="dialog">Cheat Sheet</button>
   </nav>
@@ -643,8 +655,8 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
   <!-- DUEL -->
   <section class="page" id="duel" data-page="duel" hidden>
     <div class="card" id="duel-card" data-source="districts roi">
-      <h2>District Duel: any two Cuyahoga County districts, side by side</h2>
-      <p class="note">Pick two districts. The left card is the district you're making the case for; the right card shows the comparison district with the difference on each measure.</p>
+      <h2>District Comparison: any two Cuyahoga County districts, side by side</h2>
+      <p class="note">Pick two districts. The left card shows District A; the right card shows District B and the difference on each measure. A gold star marks the more favorable figure.</p>
       <div class="sim" style="margin-bottom: var(--cds-gap-sm);">
         <label class="sl" for="duel-a">District A
           <select id="duel-a"></select></label>
@@ -665,7 +677,7 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
   <section class="page" id="explorer" data-page="explorer" hidden>
     <div class="card" id="explorer-card">
       <h2>County Data Explorer: all 31 Cuyahoga County districts</h2>
-      <p class="note">Pick a view, click a header to sort, type to filter. Every column comes straight from the FY25 Cupp report or the 2025-26 report card. "Duel" opens that district against BBHCSD on the District Duel tab.</p>
+      <p class="note">Pick a view, click a header to sort, type to filter. Every column comes straight from the FY25 Cupp report or the 2025-26 report card. "Compare" opens that district next to BBHCSD on the District Comparison tab.</p>
       <div class="ex-tools">
         <div class="ex-views" role="tablist" aria-label="Explorer views" id="ex-views"></div>
         <div class="ex-right">
@@ -727,7 +739,18 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
         <p>Overall rating points divided by operating expenditure per pupil in $10,000s. It is BBHCSD's own way of putting results and cost in one number, not a state metric. BBHCSD: <b><span data-source="bbh_summary" data-field="roi_points_per_10k" data-row="0">—</span></b> points per $10,000, #<span data-source="bbh_summary" data-field="rank_roi" data-row="0">—</span> of 31; the county average is <span data-source="county_avg" data-field="roi_points_per_10k" data-row="0">—</span>.</p></div>
       <div class="term"><h3>Assessed valuation per pupil <span class="tag">Tax base</span></h3>
         <p>Taxable property value divided by students; it shows how much each mill raises. BBHCSD: <b><span data-source="bbh_summary" data-field="valuation_pp" data-row="0">—</span> per pupil</b>, so one mill raises <span data-source="bbh_summary" data-field="one_mill_pp" data-row="0">—</span> per pupil. About <span data-source="bbh_summary" data-field="resag_pct" data-row="0">—</span> of the district's value is residential and agricultural property.</p></div>
+      <div class="term red"><h3>Have a question? <span class="tag">Ask us</span></h3>
+        <div class="qr-big"><a class="qr-tile" href="https://forms.gle/apCmZcosG5BeKfh67" target="_blank" rel="noopener"><svg class="qr" viewBox="-2 -2 33 33" role="img" aria-label="QR code: scan to ask a question" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><path fill="#a81627" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM15 0h1v1h-1zM16 0h1v1h-1zM17 0h1v1h-1zM20 0h1v1h-1zM22 0h1v1h-1zM23 0h1v1h-1zM24 0h1v1h-1zM25 0h1v1h-1zM26 0h1v1h-1zM27 0h1v1h-1zM28 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM14 1h1v1h-1zM15 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM6 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM15 2h1v1h-1zM19 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM24 2h1v1h-1zM25 2h1v1h-1zM26 2h1v1h-1zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM17 3h1v1h-1zM19 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM6 4h1v1h-1zM9 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM17 4h1v1h-1zM19 4h1v1h-1zM22 4h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM14 5h1v1h-1zM17 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM25 6h1v1h-1zM26 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM20 7h1v1h-1zM0 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM27 8h1v1h-1zM28 8h1v1h-1zM0 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM20 9h1v1h-1zM22 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM28 9h1v1h-1zM0 10h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM11 10h1v1h-1zM14 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM0 11h1v1h-1zM1 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM13 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM21 11h1v1h-1zM23 11h1v1h-1zM24 11h1v1h-1zM28 11h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM9 12h1v1h-1zM11 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM20 12h1v1h-1zM21 12h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM0 13h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM19 13h1v1h-1zM22 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM28 13h1v1h-1zM1 14h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM19 14h1v1h-1zM20 14h1v1h-1zM21 14h1v1h-1zM24 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM3 15h1v1h-1zM5 15h1v1h-1zM10 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM13 15h1v1h-1zM15 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM24 15h1v1h-1zM27 15h1v1h-1zM0 16h1v1h-1zM1 16h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM11 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM24 16h1v1h-1zM25 16h1v1h-1zM27 16h1v1h-1zM5 17h1v1h-1zM7 17h1v1h-1zM11 17h1v1h-1zM12 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM27 17h1v1h-1zM0 18h1v1h-1zM2 18h1v1h-1zM3 18h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM7 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM17 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM26 18h1v1h-1zM2 19h1v1h-1zM3 19h1v1h-1zM4 19h1v1h-1zM8 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM15 19h1v1h-1zM16 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM19 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM1 20h1v1h-1zM4 20h1v1h-1zM6 20h1v1h-1zM7 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM25 20h1v1h-1zM26 20h1v1h-1zM8 21h1v1h-1zM9 21h1v1h-1zM10 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM13 21h1v1h-1zM14 21h1v1h-1zM16 21h1v1h-1zM20 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM0 22h1v1h-1zM1 22h1v1h-1zM2 22h1v1h-1zM3 22h1v1h-1zM4 22h1v1h-1zM5 22h1v1h-1zM6 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM13 22h1v1h-1zM16 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM10 23h1v1h-1zM12 23h1v1h-1zM15 23h1v1h-1zM16 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM27 23h1v1h-1zM0 24h1v1h-1zM2 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM6 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM14 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM0 25h1v1h-1zM2 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM19 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM25 25h1v1h-1zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h1v1h-1zM3 26h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM13 26h1v1h-1zM17 26h1v1h-1zM23 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM10 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM18 27h1v1h-1zM20 27h1v1h-1zM22 27h1v1h-1zM25 27h1v1h-1zM27 27h1v1h-1zM0 28h1v1h-1zM1 28h1v1h-1zM2 28h1v1h-1zM3 28h1v1h-1zM4 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM8 28h1v1h-1zM11 28h1v1h-1zM13 28h1v1h-1zM18 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM27 28h1v1h-1z"/></svg><span>Scan to ask a question</span></a><p>Scan with a phone camera, or <a href="https://forms.gle/apCmZcosG5BeKfh67" target="_blank" rel="noopener">open the question form</a>. Questions go straight to the district, and name and email are optional.</p></div></div>
     </div>
+  </div>
+
+  <div class="ask" id="ask">
+    <div>
+      <h3>Questions about the data?</h3>
+      <p>Ask us anything about these figures or how they're calculated. Name and email are optional; leave an email if you'd like a reply.</p>
+      <a class="ask-btn" href="https://forms.gle/apCmZcosG5BeKfh67" target="_blank" rel="noopener">Ask a question &rarr;</a>
+    </div>
+    <a class="qr-tile" href="https://forms.gle/apCmZcosG5BeKfh67" target="_blank" rel="noopener" title="Open the question form"><svg class="qr" viewBox="-2 -2 33 33" role="img" aria-label="QR code: scan to ask a question" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><path fill="#a81627" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM15 0h1v1h-1zM16 0h1v1h-1zM17 0h1v1h-1zM20 0h1v1h-1zM22 0h1v1h-1zM23 0h1v1h-1zM24 0h1v1h-1zM25 0h1v1h-1zM26 0h1v1h-1zM27 0h1v1h-1zM28 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM14 1h1v1h-1zM15 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM6 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM15 2h1v1h-1zM19 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM24 2h1v1h-1zM25 2h1v1h-1zM26 2h1v1h-1zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM17 3h1v1h-1zM19 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM6 4h1v1h-1zM9 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM17 4h1v1h-1zM19 4h1v1h-1zM22 4h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM14 5h1v1h-1zM17 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM25 6h1v1h-1zM26 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM20 7h1v1h-1zM0 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM27 8h1v1h-1zM28 8h1v1h-1zM0 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM20 9h1v1h-1zM22 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM28 9h1v1h-1zM0 10h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM11 10h1v1h-1zM14 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM0 11h1v1h-1zM1 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM13 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM21 11h1v1h-1zM23 11h1v1h-1zM24 11h1v1h-1zM28 11h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM9 12h1v1h-1zM11 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM20 12h1v1h-1zM21 12h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM0 13h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM19 13h1v1h-1zM22 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM28 13h1v1h-1zM1 14h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM19 14h1v1h-1zM20 14h1v1h-1zM21 14h1v1h-1zM24 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM3 15h1v1h-1zM5 15h1v1h-1zM10 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM13 15h1v1h-1zM15 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM24 15h1v1h-1zM27 15h1v1h-1zM0 16h1v1h-1zM1 16h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM11 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM24 16h1v1h-1zM25 16h1v1h-1zM27 16h1v1h-1zM5 17h1v1h-1zM7 17h1v1h-1zM11 17h1v1h-1zM12 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM27 17h1v1h-1zM0 18h1v1h-1zM2 18h1v1h-1zM3 18h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM7 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM17 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM26 18h1v1h-1zM2 19h1v1h-1zM3 19h1v1h-1zM4 19h1v1h-1zM8 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM15 19h1v1h-1zM16 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM19 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM1 20h1v1h-1zM4 20h1v1h-1zM6 20h1v1h-1zM7 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM25 20h1v1h-1zM26 20h1v1h-1zM8 21h1v1h-1zM9 21h1v1h-1zM10 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM13 21h1v1h-1zM14 21h1v1h-1zM16 21h1v1h-1zM20 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM0 22h1v1h-1zM1 22h1v1h-1zM2 22h1v1h-1zM3 22h1v1h-1zM4 22h1v1h-1zM5 22h1v1h-1zM6 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM13 22h1v1h-1zM16 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM10 23h1v1h-1zM12 23h1v1h-1zM15 23h1v1h-1zM16 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM27 23h1v1h-1zM0 24h1v1h-1zM2 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM6 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM14 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM0 25h1v1h-1zM2 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM19 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM25 25h1v1h-1zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h1v1h-1zM3 26h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM13 26h1v1h-1zM17 26h1v1h-1zM23 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM10 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM18 27h1v1h-1zM20 27h1v1h-1zM22 27h1v1h-1zM25 27h1v1h-1zM27 27h1v1h-1zM0 28h1v1h-1zM1 28h1v1h-1zM2 28h1v1h-1zM3 28h1v1h-1zM4 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM8 28h1v1h-1zM11 28h1v1h-1zM13 28h1v1h-1zM18 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM27 28h1v1h-1z"/></svg><span>Scan to ask</span></a>
   </div>
 
   <footer class="foot">
@@ -1069,12 +1092,12 @@ window.dash = (function () {
       const topY = m.t + 6, botY = H - m.b - 6, leftX = m.l + 6, rightX = W - m.r - 6;
       const better = M.word || (key === 'overall_points' ? 'rating' : key === 'tax_500k' ? 'tax' : key === 'eff_class1_mills' ? 'millage' : 'result');
       if (M.high) {
-        put('★ Best value: low cost, high ' + better, 'good', leftX, topY, false, false);
+        put('★ Low cost, high ' + better, 'good', leftX, topY, false, false);
         put('High spend, high ' + better, '', rightX, topY, true, false);
         put('Low spend, low ' + better, '', leftX, botY, false, true);
         put('High cost, low ' + better, 'bad', rightX, botY, true, true);
       } else {
-        put('★ Best value: low cost, low ' + better, 'good', leftX, botY, false, true);
+        put('★ Low cost, low ' + better, 'good', leftX, botY, false, true);
         put('High spend, low ' + better, '', rightX, botY, true, true);
         put('Low spend, high ' + better, '', leftX, topY, false, false);
         put('High cost, high ' + better, 'bad', rightX, topY, true, false);
@@ -1388,7 +1411,7 @@ window.dash = (function () {
       const nm = document.createElement('td'); nm.className = 'name'; const n = document.createElement('span'); n.className = 'n'; n.textContent = r.district; const s = document.createElement('span'); s.className = 's'; s.textContent = r.cupp_name || ''; nm.append(n, s); tr.appendChild(nm);
       cols.forEach(([f, l, fmt]) => { const td = document.createElement('td'); const v = exVal(r, f); td.textContent = (v == null || v === '' || (typeof v === 'number' && isNaN(v))) ? '—' : (fmt ? fmt(v) : String(v)); tr.appendChild(td); });
       const tdc = document.createElement('td');
-      if (r.district !== ME) { const b = document.createElement('button'); b.type = 'button'; b.className = 'duel-btn'; b.textContent = 'Duel vs BBHCSD'; b.addEventListener('click', () => { window.duelPreset = r.district; showPage('duel'); window.scrollTo({ top: 0 }); }); tdc.appendChild(b); }
+      if (r.district !== ME) { const b = document.createElement('button'); b.type = 'button'; b.className = 'duel-btn'; b.textContent = 'Compare with BBHCSD'; b.addEventListener('click', () => { window.duelPreset = r.district; showPage('duel'); window.scrollTo({ top: 0 }); }); tdc.appendChild(b); }
       tr.appendChild(tdc); tb.appendChild(tr);
     });
   }
@@ -1461,7 +1484,7 @@ window.dash = (function () {
     let winsA = 0, winsB = 0, contests = 0;
     const money = (f) => f === fmt$;
     const build = (card, d, other, isA) => {
-      const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = isA ? (d.district === ME ? '★ County best value & ROI leader' : 'District A') : 'Benchmark comparison';
+      const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = isA ? (d.district === ME ? '#1 of 31 in academic return per dollar' : 'District A') : 'Comparison district';
       const nm = document.createElement('h3'); nm.className = 'nm'; nm.textContent = d.district;
       const sub = document.createElement('p'); sub.className = 'sub'; sub.textContent = `IRN ${String(d.irn).padStart(6, '0')} · ${d.overall_stars} · FY25 ADM ${fmtN(num(d.adm))}`;
       const rows = document.createElement('div'); rows.className = 'rows';
@@ -1475,7 +1498,7 @@ window.dash = (function () {
           const ov0 = get(other);
           if (ov0 != null && typeof val === 'number' && val !== ov0) {
             const wins = better === 'low' ? val < ov0 : val > ov0;
-            if (wins) { const st = document.createElement('span'); st.className = 'star'; st.textContent = '★'; st.title = 'Better on this measure'; if (isA) v.appendChild(st); else v.prepend(st); }
+            if (wins) { const st = document.createElement('span'); st.className = 'star'; st.textContent = '★'; st.title = 'More favorable on this measure'; if (isA) v.appendChild(st); else v.prepend(st); }
           }
         }
         if (!isA && better && val != null) {
@@ -1496,7 +1519,7 @@ window.dash = (function () {
     const taxA = 175000 * num(a.eff_class1_mills) / 1000, taxB = 175000 * num(b.eff_class1_mills) / 1000;
     const sb = document.getElementById('duel-score'); sb.replaceChildren();
     const side = (d, w, cls) => { const s = document.createElement('div'); s.className = 'side ' + cls + (w > (w === winsA ? winsB : winsA) ? ' win' : ''); const who = document.createElement('div'); who.className = 'who'; who.textContent = d.district; const pts = document.createElement('div'); pts.className = 'pts'; pts.textContent = String(w); const sm = document.createElement('small'); sm.textContent = 'of ' + contests + ' measures'; pts.appendChild(sm); s.append(who, pts); return s; };
-    const vs = document.createElement('div'); vs.className = 'vs'; vs.textContent = 'Better on';
+    const vs = document.createElement('div'); vs.className = 'vs'; vs.textContent = 'Favorable on';
     const lead = document.createElement('div'); lead.className = 'lead';
     const diffTax = taxB - taxA, diffExp = num(b.exp_total) - num(a.exp_total);
     lead.innerHTML = '';
@@ -1527,7 +1550,7 @@ window.dash = (function () {
       c.append(r, v, l); return c;
     };
     el.append(
-      chip('#' + b.rank_roi + ' of 31', '', 'Academic return per operating dollar in Cuyahoga County', 'Best value', true),
+      chip('#' + b.rank_roi + ' of 31', '', 'Academic return per operating dollar in Cuyahoga County', 'Return per dollar', true),
       chip(b.overall_stars.replace(' Stars', ' stars'), fmt3(b.overall_points) + ' pts', o ? `2025-26 report card · #${b.rank_overall} in county · #${o.rank_overall} of ${fmtN(o.districts)} in Ohio` : `2025-26 report card · #${b.rank_overall} in county`, 'Results'),
       chip(fmt$(b.exp_total), 'per pupil', `#${b.rank_exp_low} lowest operating cost of 31 · county avg ${fmt$(A.data[0].exp_total)}`, 'Cost'),
       chip(fmt$(b.tax_savings), 'less per year', `School operating tax on a $500k home vs. county average · ${fmt2(b.eff_class1_mills)} mills, #${b.rank_mills_low} lowest`, 'Taxpayer'),
