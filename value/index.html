@@ -173,6 +173,7 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
   .qr-big .qr-tile .qr { width: 200px; height: 200px; }
   .qr-big .qr-tile span { font-size: 12px; }
   @media (max-width: 560px) { .ask { flex-direction: column; align-items: flex-start; } .qr-big { flex-direction: column; align-items: flex-start; } }
+  .kv.sub span, .kv.sub b { font-weight: 700; } .kv.sub { border-top-width: 2px; }
   .foot { border-top: 1px solid var(--color-border-line); margin-top: var(--cds-gap-lg); padding-top: var(--cds-pad-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; }
   .foot .banner { font-family: var(--bbh-font); font-style: italic; color: var(--bbh-red); font-size: var(--cds-font-size-body); margin: 0 0 .4rem; }
   .bbh [data-dash-source-state=empty] { color: transparent; }
@@ -446,10 +447,12 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
       <div class="card gold">
         <h3>Where operating revenue comes from</h3>
         <div class="kv"><span>Local property tax</span><b data-source="bbh_summary" data-field="rev_local_pct" data-row="0">—</b></div>
-        <div class="kv"><span>Other non-tax local</span><b data-source="bbh_summary" data-field="rev_other_pct" data-row="0">—</b></div>
+        <div class="kv"><span>Other local, non-tax</span><b data-source="bbh_summary" data-field="rev_other_pct" data-row="0">—</b></div>
+        <div class="kv sub"><span>All local sources</span><b data-source="bbh_summary" data-field="local_all_pct" data-row="0">—</b></div>
         <div class="kv"><span>State</span><b data-source="bbh_summary" data-field="rev_state_pct" data-row="0">—</b></div>
         <div class="kv"><span>Federal</span><b data-source="bbh_summary" data-field="rev_federal_pct" data-row="0">—</b></div>
-        <div class="kv"><span>State aid per pupil</span><b data-source="bbh_summary" data-field="rev_state" data-row="0">—</b></div>
+        <div class="kv sub"><span>Total</span><b>100%</b></div>
+        <p class="note" style="margin-top:.4rem">Other local, non-tax is mainly interest, tuition, fees and rentals. State aid per pupil: <span data-source="bbh_summary" data-field="rev_state" data-row="0">—</span>.</p>
       </div>
     </div>
 
@@ -466,9 +469,10 @@ html, body { margin:0; background: var(--color-bg); color: var(--color-fg); font
           <span class="pill red">Rank <span data-source="bbh_summary" data-field="rank_state_low" data-row="0">—</span> lowest of 31</span>
         </div>
         <div>
-          <h3>Share of operating revenue</h3>
+          <h3>State share of operating revenue</h3>
           <div class="big"><span data-source="bbh_summary" data-field="rev_state_pct" data-row="0">—</span></div>
           <div class="kv"><span>Local property tax</span><b data-source="bbh_summary" data-field="rev_local_pct" data-row="0">—</b></div>
+          <div class="kv"><span>Other local, non-tax</span><b data-source="bbh_summary" data-field="rev_other_pct" data-row="0">—</b></div>
           <div class="kv"><span>Federal</span><b data-source="bbh_summary" data-field="rev_federal_pct" data-row="0">—</b></div>
         </div>
         <div>
@@ -880,7 +884,7 @@ window.dash = (function () {
         exp_savings_total: Math.round((avg.exp_total - Number(me.exp_total)) * Number(me.adm)),
         instruction_share: Number(me.exp_instruction) / Number(me.exp_total),
         rank_exp_low: rank('exp_total', 'low'), rank_mills_low: rank('eff_class1_mills', 'low'),
-        rank_va: rank('va_index', 'high'), rank_overall: rank('overall_points', 'high'), rank_pi: rank('pi', 'high'), rank_state_low: rank('rev_state', 'low'),
+        rank_va: rank('va_index', 'high'), rank_overall: rank('overall_points', 'high'), rank_pi: rank('pi', 'high'), rank_state_low: rank('rev_state', 'low'), local_all_pct: Number(me.rev_local_pct) + Number(me.rev_other_pct),
         rank_admin_lean: rank('pupil_admin_ratio', 'high'), rank_density_low: rank('pupil_density', 'low'),
       }];
     },
@@ -969,7 +973,7 @@ window.dash = (function () {
     eff_class1_mills: fmt2, voted_op_mills: fmt2, resag_eff_all_levies: fmt2, operating_resag_mills: fmt2, bond_resag_mills: fmt2, pi_resag_mills: fmt2, mills_reduced: fmt2, above_floor: fmt2,
     va_index: fmt2, va_effect: fmt2, overall_points: fmt3, pi: fmt1, grad_pct: (v) => fmt1(v) + '%', grad4: (v) => fmt1(v) + '%', grad5: (v) => fmt1(v) + '%',
     pupil_admin_ratio: fmt1, admin_fte: fmt1, tax_effort: fmt3, adm: fmtN,
-    rev_local_pct: fmtP, resag_pct: fmtP, rev_other_pct: fmtP, rev_state_pct: fmtP, rev_federal_pct: fmtP, teachers_10plus_pct: fmtP, instruction_share: fmtP, compression_pct: fmtP,
+    rev_local_pct: fmtP, local_all_pct: fmtP, resag_pct: fmtP, rev_other_pct: fmtP, rev_state_pct: fmtP, rev_federal_pct: fmtP, teachers_10plus_pct: fmtP, instruction_share: fmtP, compression_pct: fmtP,
     rank_exp_low: (v) => '#' + v, rank_mills_low: (v) => '#' + v, rank_va: (v) => '#' + v, rank_overall: (v) => '#' + v, rank_pi: (v) => '#' + v,
     rank_roi: (v) => v, rank_roi_tax: (v) => v, rank_state_low: (v) => '#' + v, per_pupil: fmt$, total_per_pupil: fmt$, share: fmtP, pct_overall: fmtP, pct_va: fmtP, pct_pi: fmtP, median_pct: (v) => fmt1(v) + '%', brecksville_pct: (v) => fmt1(v) + '%', broadview_pct: (v) => fmt1(v) + '%', brecksville_gross: (v) => fmt1(v) + '%', broadview_gross: (v) => fmt1(v) + '%', max_pct: (v) => fmt1(v) + '%', min_pct: (v) => fmt1(v) + '%', brecksville_rank_low: (v) => '#' + v, broadview_rank_low: (v) => '#' + v, at_or_above_60: fmtN, avg_points: fmt3, avg_pi: fmt1, avg_va: fmt2, districts: fmtN, five_star_districts: fmtN, enrollment_rc: fmtN, roi_points_per_10k: fmt2, roi_points_per_tax: fmt2, points_per_10k: fmt2, points_per_tax: fmt2,
   };
