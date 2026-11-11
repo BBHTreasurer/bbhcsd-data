@@ -6,6 +6,7 @@ Static site for public data dashboards from the BBHCSD Treasurer's Office, serve
 
 - `index.html` : landing page that lists the dashboards
 - `value/index.html` : "Exceptional Excellence, Unmatched Value" dashboard (self-contained, no external files)
+- `funding/index.html` : "How the State and Federal Government Fund Our Schools" dashboard (self-contained, no external files)
 - `CNAME` : the custom domain (`data.bbhcsd.org`)
 - `.nojekyll` : tells GitHub Pages to serve files as-is
 
@@ -20,7 +21,7 @@ Static site for public data dashboards from the BBHCSD Treasurer's Office, serve
 
 ## Updating a dashboard
 
-Replace `value/index.html` with the new file and commit. The link does not change. GitHub Pages republishes within about a minute.
+Replace `value/index.html` or `funding/index.html` with the new file and commit. The link does not change. GitHub Pages republishes within about a minute.
 
 ## Embedding on bbhcsd.org (Finalsite)
 
