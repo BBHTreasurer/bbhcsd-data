@@ -528,6 +528,15 @@ window.dash = (function () {
         <div class="legend"><span><i class="sw red"></i>Formula result (phased in)</span><span><i class="sw gold"></i>Guarantee (TTA)</span></div>
         <div class="chart dash-skeleton" data-draw="chart-guarantee" data-source="guarantee_rows"></div>
       </div>
+      <div class="card wide" id="on-the-formula">
+        <h3>Were we ever on the formula? Once, for one report.</h3>
+        <p class="note">How far the formula, as paid after the phase-in, landed above or below our FY2020 floor in each payment report from October 2023 on. Below the line, the guarantee made up the difference. Above it, the formula paid on its own.</p>
+        <div class="legend"><span><i class="sw red"></i>Below the floor (guarantee paid)</span><span><i class="sw gold"></i>Above the floor (on the formula)</span></div>
+        <div class="chart short dash-skeleton" data-draw="chart-floor-gap" data-source="floor_gap"></div>
+        <p>In the October 2024 report, the formula came in <b data-draw="v" data-source="floor_gap" data-where="report=FY25%20Oct%232" data-field="gap" data-fmt="usd0a">—</b> above the floor, so no guarantee was paid. Enrollment explains it. Because we sit at the <span data-draw="floor">—</span> minimum, the state pays a set amount per student, so the formula rises and falls with our student count. That fall our count peaked at <b data-draw="v" data-source="floor_gap" data-where="report=FY25%20Oct%232" data-field="adm" data-fmt="num0">—</b> students, up from <b data-draw="v" data-source="floor_gap" data-where="report=FY24%20Jun%232" data-field="adm" data-fmt="num0">—</b> the June before. The fully phased formula was <b data-draw="v" data-source="floor_gap" data-where="report=FY25%20Oct%232" data-field="full_gap" data-fmt="usd0a">—</b> above the floor, but with the formula only <b data-draw="v" data-source="floor_gap" data-where="report=FY25%20Oct%232" data-field="phase_in" data-fmt="pctv1">—</b> phased in, we received two-thirds of that.</p>
+        <p>It did not last the year. By the June 2025 report our count was down to <b data-draw="v" data-source="floor_gap" data-where="report=FY25%20Jun%232" data-field="adm" data-fmt="num0">—</b>, the formula fell back below the floor, and the guarantee returned. FY2025 ended at the FY2020 figure like every other year. Since then the formula has slipped further below the floor, to <b data-draw="v" data-source="floor_gap" data-where="report=FY27%20Oct%232" data-field="gap" data-fmt="usd0a">—</b> short in the current report.</p>
+        <p class="note">FY2023 is left off the chart. Under the old 5% minimum and FY2018 cost inputs, the formula that year came in <b data-draw="v" data-source="floor_gap" data-where="report=FY23%20Oct%232" data-field="gap" data-fmt="usd0a">—</b> below the floor, a gap large enough to flatten every other bar. HB 33's move to a 10% minimum and FY2022 inputs closed most of it.</p>
+      </div>
       <div class="card" id="phasein">
         <h3>The phase-in</h3>
         <p>The 2021 formula was not switched on all at once. Each year the state paid a larger percentage of the difference between the old funding and the new formula's answer, until FY2027, the first year at 100%.</p>
@@ -1046,6 +1055,18 @@ dash.calc('guarantee_rows', {
   fn: (sfpr) => sfpr.map((r) => ({ report: r.report, phased: +r.core_foundation_phased, tta: +r.temporary_transitional_aid, base_fy20: +r.funding_base_fy20, core: +r.core_foundation_phased + +r.temporary_transitional_aid }))
 });
 
+dash.calc('floor_gap', {
+  inputs: ['sfpr'],
+  title: 'Formula vs. the FY2020 floor, by report',
+  description: 'For each payment report: enrolled ADM, phase-in, the formula as paid after phase-in minus the FY2020 funding base (gap), and the fully phased formula minus the base (full_gap).',
+  fn: (sfpr) => sfpr.map((r) => ({
+    report: r.report, adm: +r.enrolled_adm, phase_in: +r.phase_in_pct,
+    gap: +r.core_foundation_phased - +r.funding_base_fy20,
+    full_gap: +r.formula_before_phase_in - +r.funding_base_fy20,
+    tta: +r.temporary_transitional_aid
+  }))
+});
+
 dash.calc('cat_pp', {
   inputs: ['sfpr'],
   title: 'State aid per student by need, FY2027',
@@ -1316,6 +1337,7 @@ window.bbFmt = (kind, v) => {
   switch (kind) {
     case 'usd0': return d3.format('$,.0f')(x);
     case 'usd0s': return (x > 0.5 ? '+' : x < -0.5 ? '−' : '') + d3.format('$,.0f')(Math.abs(x));
+    case 'usd0a': return d3.format('$,.0f')(Math.abs(x));
     case 'usd2': return d3.format('$,.2f')(x);
     case 'usd2s': return (x > 0.005 ? '+' : x < -0.005 ? '−' : '') + d3.format('$,.2f')(Math.abs(x));
     case 'usdM': return '$' + (x / 1e6).toFixed(2) + 'M';
@@ -1592,6 +1614,33 @@ dash.draw('chart-guarantee', (el) => {
   svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.report) + x.bandwidth() / 2).attr('y', (r) => y(r.phased) + 16).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700).attr('fill', '#fff').text((r) => '$' + (r.phased / 1e6).toFixed(2) + 'M');
   svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.report) - x.step() * x.paddingInner() / 2).attr('width', x.step()).attr('y', m.t).attr('height', H - m.b - m.t).attr('fill', 'transparent')
     .on('mousemove', (ev, r) => bbChart.showTip(el, tip, ev, r.report.replace('#2', ' #2'), [['var(--bb-red)', 'Formula result', bbFmt('usd0', r.phased)], ['var(--bb-gold)', 'Guarantee', bbFmt('usd0', r.tta)], [null, 'Core foundation aid', bbFmt('usd0', r.core)], [null, 'FY2020 base', bbFmt('usd0', r.base_fy20)]]))
+    .on('mouseleave', () => tip.style('opacity', 0));
+});
+
+// Part 5: distance from the FY2020 floor, report by report
+dash.draw('chart-floor-gap', (el) => {
+  const d = dash.data('floor_gap');
+  if (d.status !== 'ok') return bbChart.fail(el, d);
+  const rows = d.data.filter((r) => r.report !== 'FY23 Oct#2');
+  const { svg, tip, W, H } = bbChart.setup(el, 250);
+  const fmtY = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + '$' + d3.format(',.0f')(Math.abs(v) / 1000) + 'K';
+  const lo = Math.min(0, d3.min(rows, (r) => r.gap)), hi = Math.max(0, d3.max(rows, (r) => r.gap));
+  const y = d3.scaleLinear([lo * 1.2, hi * 1.6], [H - 36, 14]).nice();
+  const m = { t: 14, r: 12, b: 36, l: 12 + bbChart.measure(svg, y.ticks(5).map(fmtY)) + 8 };
+  const x = d3.scaleBand(rows.map((r) => r.report), [m.l, W - m.r]).padding(0.35);
+  bbChart.yAxis(svg, y, m, W, fmtY, 5);
+  bbChart.xAxis(svg, x, m, H, bbShort);
+  svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', 'var(--color-fg)').attr('stroke-width', 1.5);
+  svg.append('text').attr('x', m.l + 4).attr('y', y(0) - 6).attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text('FY2020 floor');
+  const bw = Math.min(40, x.bandwidth()), off = (x.bandwidth() - bw) / 2;
+  svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.report) + off).attr('width', bw)
+    .attr('y', (r) => y(Math.max(0, r.gap))).attr('height', (r) => Math.max(1, Math.abs(y(r.gap) - y(0)))).attr('rx', 3)
+    .style('fill', (r) => r.gap > 0 ? 'var(--bb-gold)' : 'var(--bb-red)');
+  svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.report) + x.bandwidth() / 2)
+    .attr('y', (r) => r.gap >= 0 ? y(r.gap) - 6 : y(r.gap) + 14).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700).attr('fill', 'var(--color-fg)')
+    .text((r) => bbFmt('usd0s', r.gap));
+  svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.report) - x.step() * x.paddingInner() / 2).attr('width', x.step()).attr('y', m.t).attr('height', H - m.b - m.t).attr('fill', 'transparent')
+    .on('mousemove', (ev, r) => bbChart.showTip(el, tip, ev, r.report.replace('#2', ' #2'), [[r.gap > 0 ? 'var(--bb-gold)' : 'var(--bb-red)', 'Formula vs. floor', bbFmt('usd0s', r.gap)], [null, 'Guarantee paid', bbFmt('usd0', r.tta)], [null, 'Enrolled students', bbFmt('num0', r.adm)], [null, 'Phase-in', bbFmt('pctv1', r.phase_in)]]))
     .on('mouseleave', () => tip.style('opacity', 0));
 });
 
